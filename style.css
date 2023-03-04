@@ -10,6 +10,10 @@ body {
 	display: none !important;
 }
 
+#cvs{
+	border: solid 1px black;
+}
+
 #homePage {
 	display: flex;
 	flex-direction: column;

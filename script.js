@@ -1,7 +1,7 @@
 const resize = () => {
-	const width = window.innerWidth * 0.8;
+	const width = window.innerWidth;
 	const height = window.innerHeight * 0.8;
-	cellSize = Math.floor(Math.min(width / cols, height / rows));
+	cellSize = Math.min(width / cols, height / rows);
 	canvas.width = cellSize * cols;
 	canvas.height = cellSize * rows;
 };
@@ -67,7 +67,7 @@ const start = () => {
 
 const drawGrid = () => {
 	ctx.strokeStyle = "black";
-	ctx.lineWidth = 1;
+	ctx.lineWidth = cellSize / 50;
 	for (let i = 0; i < rows; i++) {
 		for (let j = 0; j < cols; j++) {
 			ctx.strokeRect(j * cellSize, i * cellSize, cellSize, cellSize);
