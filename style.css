@@ -10,7 +10,7 @@ body {
 	display: none !important;
 }
 
-.homePage {
+#homePage {
 	display: flex;
 	flex-direction: column;
 	justify-content: start;

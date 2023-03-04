@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<script src="script.js" defer></script>
-		<div class="homePage">
+		<div id="homePage">
 			<h1>The Game of life</h1>
 			<form id="startForm">
 				<label for="rowsInput">Number of rows</label>
@@ -19,6 +19,8 @@
 				<input type="submit" value="Start" />
 			</form>
 		</div>
-		<canvas id="cvs" class="hidden" />
+        <div id="mainUI" class="hidden">
+            <canvas id="cvs" />
+        </div>
 	</body>
 </html>
