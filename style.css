@@ -63,6 +63,16 @@ button:focus, input[type="submit"]:focus {
 	grid-template-columns: 1fr 1fr;
 }
 
+#patternSelector {
+	all: unset;
+	width: 50%;
+	margin: 0 auto;
+	text-align: center;
+	padding: 0.5em 1em;
+	border-radius: 2em;
+	border: solid 1px black;
+}
+
 #mainUI {
 	display: flex;
 	flex-direction: column;

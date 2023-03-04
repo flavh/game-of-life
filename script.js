@@ -10,10 +10,13 @@ const canvas = document.getElementById("cvs");
 const ctx = canvas.getContext("2d");
 const homePage = document.getElementById("homePage");
 const startForm = document.getElementById("startForm");
+const rowsInput = document.getElementById("rowsInput");
+const colsInput = document.getElementById("colsInput");
 const mainUI = document.getElementById("mainUI");
 const generationNumberUI = document.getElementById("generationNumber");
 const generationRateInput = document.getElementById("generationRateRange");
 const beginSimulationButton = document.getElementById("beginSimulation");
+const patternSelector = document.getElementById("patternSelector");
 let play = false;
 let cellSize = 0;
 let rows = 10;
@@ -21,6 +24,7 @@ let cols = 20;
 let cells = [];
 let generation = 0;
 let genPerSec = 1;
+let patternData = [];
 window.addEventListener("resize", resize);
 startForm.addEventListener("submit", (e) => {
 	e.preventDefault();
@@ -30,11 +34,33 @@ generationRateInput.oninput = (e) => {
 	genPerSec = e.target.value;
 };
 
+const updatePatternData = () => {
+	const pattern = patternSelector.value;
+	if (pattern === "none") {
+		rowsInput.disabled = false;
+		colsInput.disabled = false;
+		return;
+	} else {
+		rowsInput.disabled = true;
+		rowsInput.value = patterns[pattern].rows;
+		colsInput.disabled = true;
+		colsInput.value = patterns[pattern].columns;
+	}
+	patternData = patterns[pattern];
+};
+patternSelector.onchange = updatePatternData;
+updatePatternData();
+
 const start = () => {
 	homePage.classList.add("hidden");
 	mainUI.classList.remove("hidden");
-	rows = document.getElementById("rowsInput").value;
-	cols = document.getElementById("colsInput").value;
+	if (patternData !== undefined) {
+		rows = patternData.rows;
+		cols = patternData.columns;
+	} else {
+		rows = rowsInput.value;
+		cols = colsInput.value;
+	}
 	resize();
 	cells = new Array(rows);
 	for (let i = 0; i < rows; i++) {
@@ -42,6 +68,11 @@ const start = () => {
 		for (let j = 0; j < cols; j++) {
 			cells[i][j] = false;
 		}
+	}
+	if (patternData !== undefined && patternData.cells.length > 0) {
+		patternData.cells.forEach((cell) => {
+			cells[cell.row][cell.col] = true;
+		});
 	}
 	canvas.onclick = (e) => {
 		const x = e.offsetX;
