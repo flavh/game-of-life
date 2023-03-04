@@ -54,7 +54,7 @@ updatePatternData();
 const start = () => {
 	homePage.classList.add("hidden");
 	mainUI.classList.remove("hidden");
-	if (patternData !== undefined) {
+	if (patternData !== undefined && patternData.rows !== undefined && patternData.columns !== undefined) {
 		rows = patternData.rows;
 		cols = patternData.columns;
 	} else {
@@ -69,7 +69,7 @@ const start = () => {
 			cells[i][j] = false;
 		}
 	}
-	if (patternData !== undefined && patternData.cells.length > 0) {
+	if (patternData && patternData.cells && patternData.cells.length > 0) {
 		patternData.cells.forEach((cell) => {
 			cells[cell.row][cell.col] = true;
 		});
