@@ -11,15 +11,23 @@ const ctx = canvas.getContext("2d");
 const homePage = document.getElementById("homePage");
 const startForm = document.getElementById("startForm");
 const mainUI = document.getElementById("mainUI");
+const generationNumberUI = document.getElementById("generationNumber");
+const generationRateInput = document.getElementById("generationRateRange");
+const beginSimulationButton = document.getElementById("beginSimulation");
 let cellSize = 0;
 let rows = 10;
 let cols = 10;
 let cells = [];
+let generation = 0;
+let genPerSec = 1;
 window.addEventListener("resize", resize);
 startForm.addEventListener("submit", (e) => {
 	e.preventDefault();
 	start();
 });
+generationRateInput.oninput = (e) => {
+	genPerSec = e.target.value;
+};
 
 const start = () => {
 	homePage.classList.add("hidden");
@@ -42,10 +50,16 @@ const start = () => {
 		cells[row][column] = !cells[row][column];
 		render();
 	};
+	beginSimulationButton.onclick = () => {
+		beginSimulationButton.classList.add("hidden");
+		setTimeout(() => {
+			loop();
+		}, 1000 / genPerSec);
+	};
 	render();
 };
 
-/********** RENDERING **********/
+/********** GRID RENDERING **********/
 
 const drawGrid = () => {
 	ctx.strokeStyle = "black";
@@ -78,7 +92,7 @@ const render = () => {
 	drawCells();
 };
 
-/********** Game Logic **********/
+/********** LOGIC **********/
 
 const getNeighbors = (row, column) => {
 	const neighbors = [];
@@ -137,4 +151,39 @@ const getNeighbors = (row, column) => {
 const countAliveNeighbors = (row, column) => {
 	const neighbors = getNeighbors(row, column);
 	return neighbors.filter((cell) => cell).length;
+};
+
+const update = () => {
+	const newCells = new Array(rows);
+	for (let i = 0; i < rows; i++) {
+		newCells[i] = new Array(cols);
+		for (let j = 0; j < cols; j++) {
+			const aliveNeighborsNumber = countAliveNeighbors(i, j);
+			if (cells[i][j]) {
+				newCells[i][j] =
+					aliveNeighborsNumber === 2 || aliveNeighborsNumber === 3;
+			} else {
+				newCells[i][j] = aliveNeighborsNumber === 3;
+			}
+		}
+	}
+	cells = newCells;
+};
+
+/********** UI RENDERING **********/
+
+const updateGenerationNumber = () => {
+	generationNumberUI.innerText = generation;
+};
+
+/********** LOOP **********/
+
+const loop = () => {
+	generation++;
+	updateGenerationNumber();
+	update();
+	render();
+	setTimeout(() => {
+		requestAnimationFrame(loop);
+	}, 1000 / genPerSec);
 };
