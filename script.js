@@ -1,6 +1,6 @@
 const resize = () => {
-	const width = window.innerWidth;
-	const height = window.innerHeight;
+	const width = window.innerWidth * 0.8;
+	const height = window.innerHeight * 0.8;
 	cellSize = Math.floor(Math.min(width / cols, height / rows));
 	canvas.width = cellSize * cols;
 	canvas.height = cellSize * rows;
@@ -14,9 +14,10 @@ const mainUI = document.getElementById("mainUI");
 const generationNumberUI = document.getElementById("generationNumber");
 const generationRateInput = document.getElementById("generationRateRange");
 const beginSimulationButton = document.getElementById("beginSimulation");
+let play = false;
 let cellSize = 0;
 let rows = 10;
-let cols = 10;
+let cols = 20;
 let cells = [];
 let generation = 0;
 let genPerSec = 1;
@@ -51,10 +52,13 @@ const start = () => {
 		render();
 	};
 	beginSimulationButton.onclick = () => {
-		beginSimulationButton.classList.add("hidden");
-		setTimeout(() => {
-			loop();
-		}, 1000 / genPerSec);
+		play = !play;
+		updateBeginPauseButton();
+		if (play) {
+			setTimeout(() => {
+				loop();
+			}, 1000 / genPerSec);
+		}
 	};
 	render();
 };
@@ -176,6 +180,14 @@ const updateGenerationNumber = () => {
 	generationNumberUI.innerText = generation;
 };
 
+const updateBeginPauseButton = () => {
+	if (play) {
+		beginSimulationButton.innerText = "Pause simulation";
+	} else {
+		beginSimulationButton.innerText = "Resume simulation";
+	}
+};
+
 /********** LOOP **********/
 
 const loop = () => {
@@ -183,7 +195,9 @@ const loop = () => {
 	updateGenerationNumber();
 	update();
 	render();
-	setTimeout(() => {
-		requestAnimationFrame(loop);
-	}, 1000 / genPerSec);
+	if (play) {
+		setTimeout(() => {
+			requestAnimationFrame(loop);
+		}, 1000 / genPerSec);
+	}
 };

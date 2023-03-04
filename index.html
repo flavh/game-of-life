@@ -12,22 +12,35 @@
 		<div id="homePage">
 			<h1>The Game of Life</h1>
 			<form id="startForm">
-				<label for="rowsInput">Number of rows</label>
-				<input type="number" id="rowsInput" min="0" value="10" />
-				<label for="colsInput">Number of columns</label>
-				<input type="number" id="colsInput" min="0" value="10" />
+				<div class="inputBox">
+					<label for="rowsInput">Number of rows :</label>
+					<input type="number" id="rowsInput" min="0" value="10" />
+				</div>
+				<div class="inputBox">
+					<label for="colsInput">Number of columns :</label>
+					<input type="number" id="colsInput" min="0" value="20" />
+				</div>
 				<input type="submit" value="Start" />
 			</form>
 		</div>
 		<div id="mainUI" class="hidden">
-			<div class="generationDisplay">
-				<p>Generation #<span id="generationNumber">0</span></p>
+			<div class="topBar">
+				<div class="generationDisplay">
+					<p>Generation</p>
+					<p>#<span id="generationNumber">0</span></p>
+				</div>
+				<button id="beginSimulation">Begin simulation</button>
+				<div class="generationRate">
+					<input
+						type="range"
+						name="generationRate"
+						id="generationRateRange"
+						min="1"
+						value="1"
+					/>
+				</div>
 			</div>
-			<div class="generationRate">
-				<input type="range" name="generationRate" id="generationRateRange" min="1" value="1">
-			</div>
-			<button id="beginSimulation">BEGIN SIMULATION</button>
-			<canvas id="cvs" />
+			<canvas id="cvs"></canvas>
 		</div>
 	</body>
 </html>

@@ -16,5 +16,80 @@ body {
 	justify-content: start;
 	align-items: center;
 	height: 100vh;
-	padding: 5em 0;
+	padding: 1em 0;
+}
+
+h1{
+	font-size: 6vw;
+	padding-bottom: 2em;
+}
+
+button, input[type="submit"] {
+	all: unset;
+	text-transform: uppercase;
+	padding: 0.5em 1em;
+	border-radius: 2em;
+	background: radial-gradient(circle, #555, #333);
+	color: white;
+	outline: none;
+	text-align: center;
+	cursor: pointer;
+}
+button:focus, input[type="submit"]:focus {
+	outline: #000 solid 2px;
+}
+
+#startForm{
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+	box-shadow: 0 0 1em 0.5em rgba(0,0,0,0.5);
+	padding: 2em;
+	border-radius: 1em;
+}
+
+#startForm input[type="number"]{
+	border-radius: 2em;
+	padding: 0.5em 1em;
+	border: solid 1px black;
+}
+
+#startForm .inputBox{
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+#mainUI {
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	align-items: center;
+	height: 100vh;
+}
+
+.topBar {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(10em, 1fr));
+	place-items: center;
+	width: 100%;
+	padding: .3em;
+	font-size: 1.5vw;
+}
+
+.generationRate {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.generationRate input[type="range"] {
+	width: 50%;
+}
+
+.generationDisplay {
+	font-size: 2em;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
