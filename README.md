@@ -16,6 +16,10 @@ You can pause/resume the simulation at any time.
 While running the simulation, you can still place new live cell.
 You can also move the slider to select the speed of the generations updating.
 
-## Note
+#### Grid borders
 The Conway's game of life rule's are designed for an infinite grid.
-This implementation doesn't support the simulation of the outside of the grid, the neighbors of the cells on the sides of the grid are considered dead, which can lead to strange behavior.
+
+In this implementation, you can choose if you want the borders to be delimited or reflected.
+For example, the top neighbor of a cell in the first row is the following :
+* In the delimited mode, it doesn't exists.
+* In the reflected mode, it is the cell in the same column, but in the last row of the grid.
