@@ -4,6 +4,11 @@ const resize = () => {
 	cellSize = Math.min(width / cols, height / rows);
 	canvas.width = cellSize * cols;
 	canvas.height = cellSize * rows;
+	try {
+		render();
+	} catch (error) {
+		// No cells yet
+	}
 };
 
 const canvas = document.getElementById("cvs");
@@ -17,7 +22,9 @@ const generationNumberUI = document.getElementById("generationNumber");
 const generationRateInput = document.getElementById("generationRateRange");
 const beginSimulationButton = document.getElementById("beginSimulation");
 const patternSelector = document.getElementById("patternSelector");
+const reflectCheckbox = document.getElementById("reflectCheckbox");
 let play = false;
+let reflect = false;
 let cellSize = 0;
 let rows = 10;
 let cols = 20;
@@ -32,6 +39,9 @@ startForm.addEventListener("submit", (e) => {
 });
 generationRateInput.oninput = (e) => {
 	genPerSec = e.target.value;
+};
+reflectCheckbox.onchange = (e) => {
+	reflect = e.target.checked;
 };
 
 const updatePatternData = () => {
@@ -54,7 +64,11 @@ updatePatternData();
 const start = () => {
 	homePage.classList.add("hidden");
 	mainUI.classList.remove("hidden");
-	if (patternData !== undefined && patternData.rows !== undefined && patternData.columns !== undefined) {
+	if (
+		patternData !== undefined &&
+		patternData.rows !== undefined &&
+		patternData.columns !== undefined
+	) {
 		rows = patternData.rows;
 		cols = patternData.columns;
 	} else {
@@ -62,6 +76,7 @@ const start = () => {
 		cols = colsInput.value;
 	}
 	resize();
+	reflect = reflectCheckbox.checked;
 	cells = new Array(rows);
 	for (let i = 0; i < rows; i++) {
 		cells[i] = new Array(cols);
@@ -129,55 +144,113 @@ const render = () => {
 
 /********** LOGIC **********/
 
+const getReflectedCell = (row, column) => {
+	let reflectedRow = row;
+	if (row < 0) reflectedRow = rows - 1;
+	else if (row >= rows) reflectedRow = 0;
+	let reflectedColumn = column;
+	if (column < 0) reflectedColumn = cols - 1;
+	else if (column >= cols) reflectedColumn = 0;
+	return cells[reflectedRow][reflectedColumn];
+};
+
 const getNeighbors = (row, column) => {
 	const neighbors = [];
 	try {
 		const cell = cells[row - 1][column - 1];
 		if (cell !== undefined) neighbors.push(cell);
+		else if (reflect) {
+			neighbors.push(getReflectedCell(row - 1, column - 1));
+		}
 	} catch (error) {
 		/* unexisting neighbor */
+		if (reflect) {
+			neighbors.push(getReflectedCell(row - 1, column - 1));
+		}
 	}
 	try {
 		const cell = cells[row - 1][column];
 		if (cell !== undefined) neighbors.push(cell);
+		else if (reflect) {
+			neighbors.push(getReflectedCell(row - 1, column));
+		}
 	} catch (error) {
 		/* unexisting neighbor */
+		if (reflect) {
+			neighbors.push(getReflectedCell(row - 1, column));
+		}
 	}
 	try {
 		const cell = cells[row - 1][column + 1];
 		if (cell !== undefined) neighbors.push(cell);
+		else if (reflect) {
+			neighbors.push(getReflectedCell(row - 1, column + 1));
+		}
 	} catch (error) {
 		/* unexisting neighbor */
+		if (reflect) {
+			neighbors.push(getReflectedCell(row - 1, column + 1));
+		}
 	}
 	try {
 		const cell = cells[row][column - 1];
 		if (cell !== undefined) neighbors.push(cell);
+		else if (reflect) {
+			neighbors.push(getReflectedCell(row, column - 1));
+		}
 	} catch (error) {
 		/* unexisting neighbor */
+		if (reflect) {
+			neighbors.push(getReflectedCell(row, column - 1));
+		}
 	}
 	try {
 		const cell = cells[row][column + 1];
 		if (cell !== undefined) neighbors.push(cell);
+		else if (reflect) {
+			neighbors.push(getReflectedCell(row, column + 1));
+		}
 	} catch (error) {
 		/* unexisting neighbor */
+		if (reflect) {
+			neighbors.push(getReflectedCell(row, column + 1));
+		}
 	}
 	try {
 		const cell = cells[row + 1][column - 1];
 		if (cell !== undefined) neighbors.push(cell);
+		else if (reflect) {
+			neighbors.push(getReflectedCell(row + 1, column - 1));
+		}
 	} catch (error) {
 		/* unexisting neighbor */
+		if (reflect) {
+			neighbors.push(getReflectedCell(row + 1, column - 1));
+		}
 	}
 	try {
 		const cell = cells[row + 1][column];
 		if (cell !== undefined) neighbors.push(cell);
+		else if (reflect) {
+			neighbors.push(getReflectedCell(row + 1, column));
+		}
 	} catch (error) {
 		/* unexisting neighbor */
+		if (reflect) {
+			neighbors.push(getReflectedCell(row + 1, column));
+		}
 	}
 	try {
 		const cell = cells[row + 1][column + 1];
 		if (cell !== undefined) neighbors.push(cell);
+		else if (reflect) {
+			neighbors.push(getReflectedCell(row + 1, column + 1));
+		}
 	} catch (error) {
 		/* unexisting neighbor */
+		if (reflect) {
+			neighbors.push(getReflectedCell(row + 1, column + 1));
+		}
 	}
 
 	return neighbors;

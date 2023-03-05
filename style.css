@@ -96,14 +96,29 @@ button:focus, input[type="submit"]:focus {
 	justify-content: center;
 }
 
-.generationRate input[type="range"] {
-	width: 50%;
-}
-
 .generationDisplay {
 	font-size: 2em;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+}
+
+.parametersBox {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: .2em;
+}
+
+.reflectBox {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: .5em;
+}
+
+.reflectBox input[type="checkbox"] {
+	scale: 1.5;
 }
