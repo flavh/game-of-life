@@ -1,3 +1,4 @@
+"use strict";
 const resize = () => {
 	const width = window.innerWidth;
 	const height = window.innerHeight * 0.8;
